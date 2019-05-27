@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		">
+
+	<context:annotation-config />
+	<context:component-scan	base-package="com.cafe24.springcontainer.videosystem">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	
+	<!-- 1) 간단한 빈 설정 -->
+	<bean class="com.cafe24.springcontainer.videosystem.Avengers"></bean>
+	
+	<!-- 2) 설정된 빈에 아이디 부여 -->
+	<bean id="ironMan" class="com.cafe24.springcontainer.videosystem.IronMan"></bean>
+	
+	<!-- 3) 생성자 통한 빈 주입01 -->
+	<bean id="dvdPlayer2" class="com.cafe24.springcontainer.videosystem.DVDPlayer">
+		<constructor-arg ref="ironMan"/>
+	</bean>
+	
+	<!-- 3) 생성자 통한 빈 주입02 / c-namespace의 argument name 사용-->
+	<bean id="dvdPlayer3" class="com.cafe24.springcontainer.videosystem.DVDPlayer" c:dvd-ref="ironMan"/>
+	
+	<!-- 3) 생성자 통한 빈 주입03 / c-namespace의 argument index 사용-->
+	<bean id="dvdPlayer4" class="com.cafe24.springcontainer.videosystem.DVDPlayer" c:_0-ref="ironMan"/>
+	
+	<!-- 3) 생성자 통한 빈 주입04 / c-namespace의 argument index 사용-->
+	<bean id="dvdPlayer5" class="com.cafe24.springcontainer.videosystem.DVDPlayer" c:_-ref="ironMan"/>
+
+	<!-- 3) 생성자 통한 빈 주입05 / literal01-->
+	<bean id="avengersInfinityWar" class="com.cafe24.springcontainer.videosystem.BlankDisc">
+		<constructor-arg name="title" value="Avengers Infinity War"/>
+		<constructor-arg name="studio" value="Marvel"/>
+	</bean>
+	
+	<!-- 3) 생성자 통한 빈 주입06 / literal02-->
+	<bean id="avengersEndgame" class="com.cafe24.springcontainer.videosystem.BlankDisc"
+		c:title="Avengers End Game"
+		c:studio="Marvel"/>
+		
+	<!-- 3) 생성자 통한 빈 주입07 / literal03-->
+	<bean id="avengersAgeOfUltron" class="com.cafe24.springcontainer.videosystem.BlankDisc"
+		c:_0="Avengers Age Of Ultron"
+		c:_1="Marvel"/>
+		
+	<!-- 3) 생성자 통한 빈 주입08 / Wiring Collection-->
+	<bean id="captainAmerica" class="com.cafe24.springcontainer.videosystem.BlankDisc">
+		<constructor-arg name="title" value="Captain America"/>
+		<constructor-arg name="studio" value="Marvel"/>
+		<constructor-arg><null></null></constructor-arg>
+	</bean>
+	
+	<!-- 3) 생성자 통한 빈 주입09 / Wiring Collection-->
+	<bean id="avengersDirectorEdition" class="com.cafe24.springcontainer.videosystem.BlankDisc">
+		<constructor-arg name="title" value="Avengers Director Edition"/>
+		<constructor-arg name="studio" value="Marvel"/>
+		<constructor-arg>
+			<list>
+				<value>Elizabeth Olsen</value>
+				<value>Chris Evans</value>
+				<value>Tom Holland</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 3) 생성자 통한 빈 주입10 / Wiring Collection-->
+	<bean id="avengersTriplepack" class="com.cafe24.springcontainer.videosystem.DVDPack">
+		<constructor-arg name="title" value="Avengers Triplepack"/>
+		<constructor-arg>
+			<list>
+				<!-- 패키징 -->
+				<ref bean="avengersAgeOfUltron"/>
+				<ref bean="avengersEndgame"/>
+				<ref bean="avengersInfinityWar"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 프로퍼티 활용 -->
+	
+	<!-- 4) 프로퍼티를 통한 빈 주입01 -->
+	<bean id="dvdPlayer6" class="com.cafe24.springcontainer.videosystem.DVDPlayer">
+		<property name="dvd" ref="avengersInfinityWar"></property>
+	</bean>
+	
+	<!-- 4) 프로퍼티를 통한 빈 주입02 / namespace -->
+	<bean id="dvdPlayer7" class="com.cafe24.springcontainer.videosystem.DVDPlayer"
+		p:dvd-ref="avengersInfinityWar"/>
+		
+	<!-- 4) 프로퍼티를 통한 빈 주입03 -->
+	<bean id="avengersExpansionPack1" class="com.cafe24.springcontainer.videosystem.BlankDisc">
+		<property name="title" value="Avengers Expansion Pack1"/>
+		<property name="studio" value="Marvel"/>
+		<property name="actors">
+			<list>
+				<value>Elizabeth</value>
+				<value>Chris</value>
+				<value>Tom</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 4) 프로퍼티를 통한 빈 주입04 / namespace와 value 혼합 -->
+	<bean id="avengersExpansionPack2" class="com.cafe24.springcontainer.videosystem.BlankDisc"
+		p:title="Avengers Expansion Pack2"
+		p:studio="Marvel">
+		<property name="actors">
+			<list>
+				<value>Elizabeth</value>
+				<value>Chris</value>
+				<value>Tom</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 4) 프로퍼티를 통한 빈 주입05 / only namespace -->
+	<!-- util 사용 시 xsi:schemaLocation에 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd 입력 필수-->
+	<util:list id="actorList">
+		<value>Elizabeth</value>
+		<value>Chris</value>
+		<value>Tom</value>
+	</util:list>
+	
+	<bean id="avengersExpansionPack3" class="com.cafe24.springcontainer.videosystem.BlankDisc"
+		p:title="Avengers Expansion Pack3"
+		p:studio="Marvel"
+		p:actors-ref="actorList"/>
+
+</beans>
