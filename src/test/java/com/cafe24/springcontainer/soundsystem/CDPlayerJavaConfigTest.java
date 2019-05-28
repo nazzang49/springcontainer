@@ -19,6 +19,7 @@ import config.soundsystem.CDPlayerConfig;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
+//같은 프로젝트 내 있는 config 클래스를 컨테이너로 등록(해당 컨테이너에서 필요한 작업에 수반되는 빈 객체 스캔)
 @ContextConfiguration(classes=CDPlayerConfig.class)
 public class CDPlayerJavaConfigTest {
 

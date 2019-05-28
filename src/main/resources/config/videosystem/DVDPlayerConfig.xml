@@ -16,12 +16,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 		">
 
-	<context:annotation-config />
-	<context:component-scan	base-package="com.cafe24.springcontainer.videosystem">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Component" />
-	</context:component-scan>
-	
 	<!-- 1) 간단한 빈 설정 -->
 	<bean class="com.cafe24.springcontainer.videosystem.Avengers"></bean>
 	
@@ -34,6 +28,7 @@
 	</bean>
 	
 	<!-- 3) 생성자 통한 빈 주입02 / c-namespace의 argument name 사용-->
+	<!-- IronMan 빈 객체를 참조하는 dvdPlayer3 빈 객체 생성 -->
 	<bean id="dvdPlayer3" class="com.cafe24.springcontainer.videosystem.DVDPlayer" c:dvd-ref="ironMan"/>
 	
 	<!-- 3) 생성자 통한 빈 주입03 / c-namespace의 argument index 사용-->

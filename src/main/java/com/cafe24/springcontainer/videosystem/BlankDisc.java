@@ -2,6 +2,7 @@ package com.cafe24.springcontainer.videosystem;
 
 import java.util.List;
 
+//disc 예시
 public class BlankDisc implements DigitalVideoDisc {
 
 	private String title;
